@@ -5,29 +5,27 @@ using System.Web;
 
 namespace Lifts.WebClient.ViewModels
 {
-    public class SkillViewModel
+    public class FitnessTestViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public int Progress { get; set; }
+        public bool Completed { get; set; }
 
-        public SkillViewModel()
+        public FitnessTestViewModel()
         {
             
         }
 
-        public SkillViewModel(int id, string name, string description, int progress)
+        public FitnessTestViewModel(int id, string name, bool completed)
         {
             Id = id;
             Name = name;
-            Description = description;
-            Progress = progress;
+            Completed = completed;
         }
 
         public override string ToString()
         {
-            return string.Format("{0} - {1}", Name, Description);
+            return string.Format("{0} - {1}", Name, Completed);
         }
     }
 }

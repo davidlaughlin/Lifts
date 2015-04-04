@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Some Skill";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Flexibility</h2>
+        <ul class="skill-bar">
+            <li>
+                <div class="meter">
+                    <span data-bind="css: {darkGreen: skillProgress() == 100, green: skillProgress() < 100 & skillProgress() > 75, blue: skillProgress() <= 75 & skillProgress() > 50, lightOrange: skillProgress() <= 50 & skillProgress() > 25, red: skillProgress() < 25 }, style: { width: skillProgress() + '%' }, text: skillProgress() + '%'"></span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <ul class="skill-bar" data-bind="foreach: allItems">
+            <li>
+                <label>
+                    <input type="checkbox" data-bind="checkedValue: completed, checked: completed">
+                    <span data-bind="text: name"></span>
+                </label>
+            </li>
+        </ul>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/KnockoutViewModels/FitnessTestViewModel.js"></script>
+}
