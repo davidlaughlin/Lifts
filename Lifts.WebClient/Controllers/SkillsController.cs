@@ -27,7 +27,7 @@ namespace Lifts.WebClient.Controllers
 
         public ActionResult Index()
         {
-            IEnumerable<SkillViewModel> viewModel = GetSkills();
+            IEnumerable<SkillProgressViewModel> viewModel = GetSkills();
 
             if (Request.IsAjaxRequest())
             {
@@ -40,7 +40,7 @@ namespace Lifts.WebClient.Controllers
         public ActionResult Detail(string name)
         {
             IEnumerable<FitnessTestViewModel> viewModel;
-            SkillViewModel skill = GetSkills().FirstOrDefault(each => each.Name == name);
+            SkillProgressViewModel skill = GetSkills().FirstOrDefault(each => each.Name == name);
 
             if (skill == null)
             {
@@ -58,9 +58,9 @@ namespace Lifts.WebClient.Controllers
         }
 
 
-        private IEnumerable<SkillViewModel> GetSkills()
+        private IEnumerable<SkillProgressViewModel> GetSkills()
         {
-            List<SkillViewModel> skills = new List<SkillViewModel>();
+            List<SkillProgressViewModel> skills = new List<SkillProgressViewModel>();
 
             Athlete athlete = _athleteRepository.Find(each => each.LastName == "Laughlin").FirstOrDefault();
             if (athlete == null)
@@ -71,15 +71,11 @@ namespace Lifts.WebClient.Controllers
             foreach (Skill skill in _skillRepository.All())
             {
                 IEnumerable<AthleteFitnessTest> fitnessTests = athlete.AthleteFitnessTests.Where(fitnessTest => fitnessTest.FitnessTest.Skill == skill);
-                if (fitnessTests.Any())
+                skills.Add(new SkillProgressViewModel(skill.Id, skill.Name, skill.Description, fitnessTests.Count()*10)
                 {
-                    skills.Add(new SkillViewModel(skill.Id, skill.Name, skill.Description, fitnessTests.Count() * 10)); //number of tests.... shouldnt hardcode
-                }
-                else
-                {
-                    skills.Add(new SkillViewModel(skill.Id, skill.Name, skill.Description, 0));
-                }
-            }
+                    AthleteName = string.Format("{0} {1}", athlete.FirstName, athlete.LastName)
+                });
+            };
 
             return skills;
         }

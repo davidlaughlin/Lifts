@@ -5,19 +5,21 @@ using System.Web;
 
 namespace Lifts.WebClient.ViewModels
 {
-    public class SkillViewModel
+    public class SkillProgressViewModel
     {
+        public string AthleteName { get; set; }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int Progress { get; set; }
 
-        public SkillViewModel()
+        public SkillProgressViewModel()
         {
             
         }
 
-        public SkillViewModel(int id, string name, string description, int progress)
+        public SkillProgressViewModel(int id, string name, string description, int progress)
         {
             Id = id;
             Name = name;

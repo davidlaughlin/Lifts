@@ -9,7 +9,10 @@
     <div class="col-sm-12">
         <ul class="skill-bar" data-bind="foreach: allItems">
             <li>
-                <h5 data-bind="text: name"></h5>
+                @*<a href="/Skills/Detail?name=Flexibility">*@
+                <a data-bind="attr: {href: '/Skills/Detail?name=' + name}">
+                    <h5 data-bind="text: name"></h5>
+                </a>
                 <div class="meter">
                     <span data-bind="css: {darkGreen: progress == 100, green: progress < 100 & progress > 75, blue: progress <= 75 & progress > 50, lightOrange: progress <= 50 & progress > 25, red: progress < 25 }, style: { width: progress + '%' }, text: progress"></span>
                 </div>
@@ -18,7 +21,7 @@
     </div>
 </div>
 
-@section scripts
+@section Scripts
 {
     <script src="~/KnockoutViewModels/SkillViewModel.js"></script>
 }
