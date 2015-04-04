@@ -11,11 +11,11 @@ namespace Lifts.WebClient.Controllers
 {
     public abstract class BaseController : Controller
     {
-        protected new ViewResult View(object model)
-        {
-            IHtmlString payload = SerializeObject(model);
-            return base.View(payload);
-        }
+        //protected new ViewResult View(object model)
+        //{
+        //    IHtmlString payload = SerializeObject(model);
+        //    return base.View(payload);
+        //}
 
         protected IHtmlString SerializeObject(object value)
         {
