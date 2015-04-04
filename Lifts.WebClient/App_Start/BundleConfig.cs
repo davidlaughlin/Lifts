@@ -23,11 +23,12 @@ namespace Lifts.WebClient
                         "~/Scripts/knockout-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
+                      "~/Content/genius_v_1_0_4_html/assets/js/bootstrap.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/genius_v_1_0_4_html/assets/css/bootstrap.css",
+                      "~/Content/genius_v_1_0_4_html/assets/css/style.css",
                       "~/Content/site.css"));
         }
     }

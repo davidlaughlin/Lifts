@@ -1,18 +1,22 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Core Skills";
 }
 
-<h2>Index</h2>
+<h2>Core Skills</h2>
 
-<table>
-    <tbody data-bind="foreach: skills">
-    <tr>
-        <td data-bind="text: name"/>
-        <td data-bind="text: progress"/>
-    </tr>
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-sm-12">
+        <ul class="skill-bar" data-bind="foreach: skills">
+            <li>
+                <h5 data-bind="text: name"></h5>
+                <div class="meter">
+                    <span data-bind="css: {darkGreen: progress == 100, green: progress < 100 & progress > 75, blue: progress <= 75 & progress > 50, lightOrange: progress < 50, red: progress < 25 }, style: { width: progress + '%' }, text: progress"></span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
 
 @section scripts
 {
