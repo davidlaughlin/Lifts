@@ -6,9 +6,10 @@
 
     self.skills =
     [
-        { firstName: 'Bert', lastName: 'Bertington' },
-        { firstName: 'Charles', lastName: 'Charlesforth' },
-        { firstName: 'Denise', lastName: 'Dentiste' }
+        { name: 'Speed', progress: 29 },
+        { name: 'Balance', progress: 50 },
+        { name: 'Agility', progress: 35 },
+        { name: 'Strength', progress: 45 }
     ];
 }
 
