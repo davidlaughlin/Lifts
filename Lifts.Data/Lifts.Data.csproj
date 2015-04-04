@@ -76,6 +76,8 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AthleteRepository.cs" />
+    <Compile Include="Repositories\IAthleteRepository.cs" />
+    <Compile Include="Repositories\ISkillRepository.cs" />
     <Compile Include="Repositories\SkillRepository.cs" />
     <Compile Include="Skill.cs">
       <DependentUpon>LiftsModel.tt</DependentUpon>

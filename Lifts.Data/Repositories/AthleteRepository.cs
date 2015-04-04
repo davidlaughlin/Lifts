@@ -8,7 +8,7 @@ using Lifts.Data.Repository.UnitsOfWork;
 
 namespace Lifts.Data.Repositories
 {
-    public class AthleteRepository : Repository<Athlete>
+    public class AthleteRepository : Repository<Athlete>, IAthleteRepository
     {
         public AthleteRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {

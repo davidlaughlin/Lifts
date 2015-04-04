@@ -16,6 +16,15 @@ namespace Lifts.WebClient.Controllers
 {
     public class SkillsController : BaseController
     {
+        private readonly ISkillRepository _skillRepository;
+        private readonly IAthleteRepository _athleteRepository;
+
+        public SkillsController(ISkillRepository skillRepository, IAthleteRepository athleteRepository)
+        {
+            _skillRepository = skillRepository;
+            _athleteRepository = athleteRepository;
+        }
+
         public ActionResult Index()
         {
             IEnumerable<SkillViewModel> viewModel = GetSkills();
@@ -32,7 +41,7 @@ namespace Lifts.WebClient.Controllers
         {
             IEnumerable<FitnessTestViewModel> viewModel;
             SkillViewModel skill = GetSkills().FirstOrDefault(each => each.Name == name);
-            
+
             if (skill == null)
             {
                 return new HttpNotFoundResult();
@@ -53,29 +62,22 @@ namespace Lifts.WebClient.Controllers
         {
             List<SkillViewModel> skills = new List<SkillViewModel>();
 
-            using (LiftsDbEntities dbContext = new LiftsDbEntities())
-            using (EntityFrameworkUnitOfWork unitOfWork = new EntityFrameworkUnitOfWork(dbContext))
+            Athlete athlete = _athleteRepository.Find(each => each.LastName == "Laughlin").FirstOrDefault();
+            if (athlete == null)
             {
-                SkillRepository skillRepository = new SkillRepository(unitOfWork);
-                AthleteRepository athleteRepository = new AthleteRepository(unitOfWork);
-                Athlete athlete = athleteRepository.Find(each => each.LastName == "Laughlin").FirstOrDefault();
-                if (athlete == null)
+                return null;
+            }
+
+            foreach (Skill skill in _skillRepository.All())
+            {
+                IEnumerable<AthleteFitnessTest> fitnessTests = athlete.AthleteFitnessTests.Where(fitnessTest => fitnessTest.FitnessTest.Skill == skill);
+                if (fitnessTests.Any())
                 {
-                    return null;
+                    skills.Add(new SkillViewModel(skill.Id, skill.Name, skill.Description, fitnessTests.Count() * 10)); //number of tests.... shouldnt hardcode
                 }
-
-
-                foreach (Skill skill in skillRepository.All())
+                else
                 {
-                    IEnumerable<AthleteFitnessTest> fitnessTests = athlete.AthleteFitnessTests.Where(fitnessTest => fitnessTest.FitnessTest.Skill == skill);
-                    if (fitnessTests.Any())
-                    {
-                        skills.Add(new SkillViewModel(skill.Id, skill.Name, skill.Description, fitnessTests.Count() * 10)); //number of tests.... shouldnt hardcode
-                    }
-                    else
-                    {
-                        skills.Add(new SkillViewModel(skill.Id, skill.Name, skill.Description, 0));
-                    }
+                    skills.Add(new SkillViewModel(skill.Id, skill.Name, skill.Description, 0));
                 }
             }
 
