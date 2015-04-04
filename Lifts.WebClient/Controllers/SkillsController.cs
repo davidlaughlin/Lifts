@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Web;
 using System.Web.Mvc;
+using Lifts.Data;
+using Lifts.Data.Repositories;
+using Lifts.Data.Repository.UnitsOfWork;
 using Lifts.WebClient.ActionResults;
 using Lifts.WebClient.ViewModels;
 
@@ -46,19 +51,33 @@ namespace Lifts.WebClient.Controllers
 
         private IEnumerable<SkillViewModel> GetSkills()
         {
-            List<SkillViewModel> skills = new List<SkillViewModel>
+            List<SkillViewModel> skills = new List<SkillViewModel>();
+
+            using (LiftsDbEntities dbContext = new LiftsDbEntities())
+            using (EntityFrameworkUnitOfWork unitOfWork = new EntityFrameworkUnitOfWork(dbContext))
             {
-                new SkillViewModel(0, "Cardiovascular / Respiratory Endurance", "The ability of body systems to gather, process, and deliver oxygen.", 14),
-                new SkillViewModel(1, "Stamina", "The ability of body systems to process, deliver, store, and utilize energy.", 35),
-                new SkillViewModel(2, "Strength", "The ability of a muscular unit, or combination of muscular units, to apply force.", 45),
-                new SkillViewModel(3, "Flexibility", "The ability to maximize the range of motion at a given joint.", 29),
-                new SkillViewModel(4, "Power", "The ability of a muscular unit, or combination of muscular units, to apply maximum force in minimum time.", 65),
-                new SkillViewModel(5, "Speed", "The ability to minimize the time cycle of a repeated movement.", 9),
-                new SkillViewModel(6, "Coordination", "The ability to combine several distinct movement patterns into a singular distinct movement.", 3),
-                new SkillViewModel(7, "Agility", "The ability to minimize transition time from one movement pattern to another.", 100),
-                new SkillViewModel(8, "Balance", "The ability to control the placement of the bodies center of gravity in relation to its support base.", 82),
-                new SkillViewModel(9, "Accuracy", "The ability to control movement in a given direction or at a given intensity.", 99)
-            };
+                SkillRepository skillRepository = new SkillRepository(unitOfWork);
+                AthleteRepository athleteRepository = new AthleteRepository(unitOfWork);
+                Athlete athlete = athleteRepository.Find(each => each.LastName == "Laughlin").FirstOrDefault();
+                if (athlete == null)
+                {
+                    return null;
+                }
+
+
+                foreach (Skill skill in skillRepository.All())
+                {
+                    IEnumerable<AthleteFitnessTest> fitnessTests = athlete.AthleteFitnessTests.Where(fitnessTest => fitnessTest.FitnessTest.Skill == skill);
+                    if (fitnessTests.Any())
+                    {
+                        skills.Add(new SkillViewModel(skill.Id, skill.Name, skill.Description, fitnessTests.Count() * 10)); //number of tests.... shouldnt hardcode
+                    }
+                    else
+                    {
+                        skills.Add(new SkillViewModel(skill.Id, skill.Name, skill.Description, 0));
+                    }
+                }
+            }
 
             return skills;
         }

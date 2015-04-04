@@ -928,6 +928,16 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lifts.Data.Repository\Lifts.Data.Repository.csproj">
+      <Project>{0388e033-ee2d-4d6a-9eaf-b5af8d5ef2cc}</Project>
+      <Name>Lifts.Data.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lifts.Data\Lifts.Data.csproj">
+      <Project>{5868cd72-28a6-47d1-8087-abdf596d0ace}</Project>
+      <Name>Lifts.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

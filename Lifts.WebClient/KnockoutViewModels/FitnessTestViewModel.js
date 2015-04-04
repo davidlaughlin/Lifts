@@ -38,7 +38,6 @@
     }).fail(function (jqXHR, status) {
         console("Request failed: " + status);
     });
-
 }
 
 ko.applyBindings(new FitnessTestListViewModel());

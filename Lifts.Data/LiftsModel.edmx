@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LiftsDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Athlete">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AthleteFitnessTest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="AthleteId" Type="int" Nullable="false" />
+          <Property Name="FitnessTestId" Type="int" Nullable="false" />
+          <Property Name="Completed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FitnessTest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="SkillId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Skill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <Association Name="FK_AthleteFitnessTest_Athlete">
+          <End Role="Athlete" Type="Self.Athlete" Multiplicity="1" />
+          <End Role="AthleteFitnessTest" Type="Self.AthleteFitnessTest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Athlete">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AthleteFitnessTest">
+              <PropertyRef Name="AthleteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AthleteFitnessTest_FitnessTest">
+          <End Role="FitnessTest" Type="Self.FitnessTest" Multiplicity="1" />
+          <End Role="AthleteFitnessTest" Type="Self.AthleteFitnessTest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FitnessTest">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AthleteFitnessTest">
+              <PropertyRef Name="FitnessTestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FitnessTest_Skill">
+          <End Role="Skill" Type="Self.Skill" Multiplicity="1" />
+          <End Role="FitnessTest" Type="Self.FitnessTest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Skill">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FitnessTest">
+              <PropertyRef Name="SkillId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LiftsDbModelStoreContainer">
+          <EntitySet Name="Athlete" EntityType="Self.Athlete" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AthleteFitnessTest" EntityType="Self.AthleteFitnessTest" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FitnessTest" EntityType="Self.FitnessTest" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Skill" EntityType="Self.Skill" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AthleteFitnessTest_Athlete" Association="Self.FK_AthleteFitnessTest_Athlete">
+            <End Role="Athlete" EntitySet="Athlete" />
+            <End Role="AthleteFitnessTest" EntitySet="AthleteFitnessTest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AthleteFitnessTest_FitnessTest" Association="Self.FK_AthleteFitnessTest_FitnessTest">
+            <End Role="FitnessTest" EntitySet="FitnessTest" />
+            <End Role="AthleteFitnessTest" EntitySet="AthleteFitnessTest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FitnessTest_Skill" Association="Self.FK_FitnessTest_Skill">
+            <End Role="Skill" EntitySet="Skill" />
+            <End Role="FitnessTest" EntitySet="FitnessTest" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LiftsDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="FitnessTest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="SkillId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Skill" Relationship="Self.FK_FitnessTest_Skill" FromRole="FitnessTest" ToRole="Skill" />
+          <NavigationProperty Name="AthleteFitnessTests" Relationship="LiftsDbModel.FK_AthleteFitnessTest_FitnessTest" FromRole="FitnessTest" ToRole="AthleteFitnessTest" />
+        </EntityType>
+        <EntityType Name="Skill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FitnessTests" Relationship="Self.FK_FitnessTest_Skill" FromRole="Skill" ToRole="FitnessTest" />
+        </EntityType>
+        <Association Name="FK_FitnessTest_Skill">
+          <End Role="Skill" Type="Self.Skill" Multiplicity="1" />
+          <End Role="FitnessTest" Type="Self.FitnessTest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Skill">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FitnessTest">
+              <PropertyRef Name="SkillId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LiftsDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="FitnessTests" EntityType="Self.FitnessTest" />
+          <EntitySet Name="Skills" EntityType="Self.Skill" />
+          <AssociationSet Name="FK_FitnessTest_Skill" Association="Self.FK_FitnessTest_Skill">
+            <End Role="Skill" EntitySet="Skills" />
+            <End Role="FitnessTest" EntitySet="FitnessTests" />
+          </AssociationSet>
+          <EntitySet Name="Athletes" EntityType="LiftsDbModel.Athlete" />
+          <EntitySet Name="AthleteFitnessTests" EntityType="LiftsDbModel.AthleteFitnessTest" />
+          <AssociationSet Name="FK_AthleteFitnessTest_Athlete" Association="LiftsDbModel.FK_AthleteFitnessTest_Athlete">
+            <End Role="Athlete" EntitySet="Athletes" />
+            <End Role="AthleteFitnessTest" EntitySet="AthleteFitnessTests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AthleteFitnessTest_FitnessTest" Association="LiftsDbModel.FK_AthleteFitnessTest_FitnessTest">
+            <End Role="FitnessTest" EntitySet="FitnessTests" />
+            <End Role="AthleteFitnessTest" EntitySet="AthleteFitnessTests" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Athlete">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AthleteFitnessTests" Relationship="LiftsDbModel.FK_AthleteFitnessTest_Athlete" FromRole="Athlete" ToRole="AthleteFitnessTest" />
+        </EntityType>
+        <EntityType Name="AthleteFitnessTest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="AthleteId" Type="Int32" Nullable="false" />
+          <Property Name="FitnessTestId" Type="Int32" Nullable="false" />
+          <Property Name="Completed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Athlete" Relationship="LiftsDbModel.FK_AthleteFitnessTest_Athlete" FromRole="AthleteFitnessTest" ToRole="Athlete" />
+          <NavigationProperty Name="FitnessTest" Relationship="LiftsDbModel.FK_AthleteFitnessTest_FitnessTest" FromRole="AthleteFitnessTest" ToRole="FitnessTest" />
+        </EntityType>
+        <Association Name="FK_AthleteFitnessTest_Athlete">
+          <End Type="LiftsDbModel.Athlete" Role="Athlete" Multiplicity="1" />
+          <End Type="LiftsDbModel.AthleteFitnessTest" Role="AthleteFitnessTest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Athlete">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AthleteFitnessTest">
+              <PropertyRef Name="AthleteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AthleteFitnessTest_FitnessTest">
+          <End Type="LiftsDbModel.FitnessTest" Role="FitnessTest" Multiplicity="1" />
+          <End Type="LiftsDbModel.AthleteFitnessTest" Role="AthleteFitnessTest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FitnessTest">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AthleteFitnessTest">
+              <PropertyRef Name="FitnessTestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LiftsDbModelStoreContainer" CdmEntityContainer="LiftsDbEntities">
+          <EntitySetMapping Name="FitnessTests">
+            <EntityTypeMapping TypeName="LiftsDbModel.FitnessTest">
+              <MappingFragment StoreEntitySet="FitnessTest">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SkillId" ColumnName="SkillId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Skills">
+            <EntityTypeMapping TypeName="LiftsDbModel.Skill">
+              <MappingFragment StoreEntitySet="Skill">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Athletes">
+            <EntityTypeMapping TypeName="LiftsDbModel.Athlete">
+              <MappingFragment StoreEntitySet="Athlete">
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AthleteFitnessTests">
+            <EntityTypeMapping TypeName="LiftsDbModel.AthleteFitnessTest">
+              <MappingFragment StoreEntitySet="AthleteFitnessTest">
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
+                <ScalarProperty Name="FitnessTestId" ColumnName="FitnessTestId" />
+                <ScalarProperty Name="AthleteId" ColumnName="AthleteId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
