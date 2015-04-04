@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table>
+    <tbody data-bind="foreach: skills">
+    <tr>
+        <td data-bind="text: firstName"/>
+        <td data-bind="text: lastName"/>
+    </tr>
+    </tbody>
+</table>
+
+@section scripts
+{
+    <script src="~/KnockoutViewModels/SkillViewModel.js"></script>
+}
