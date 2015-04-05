@@ -29,5 +29,7 @@ namespace Lifts.Data
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<Athlete> Athletes { get; set; }
         public virtual DbSet<AthleteFitnessTest> AthleteFitnessTests { get; set; }
+        public virtual DbSet<Roster> Rosters { get; set; }
+        public virtual DbSet<RosterAthlete> RosterAthletes { get; set; }
     }
 }

@@ -45,6 +45,7 @@ namespace Lifts.WebClient.App_Start
 
             container.RegisterType<ISkillRepository, SkillRepository>();
             container.RegisterType<IAthleteRepository, AthleteRepository>();
+            container.RegisterType<IRosterRepository, RosterRepository>();
         }
     }
 }

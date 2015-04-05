@@ -5,20 +5,22 @@ using System.Web;
 
 namespace Lifts.WebClient.ViewModels
 {
-    public class FitnessTestViewModel
+    public class FitnessTestProgressViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public bool Completed { get; set; }
+        public string SkillName { get; set; }
 
-        public FitnessTestViewModel()
+        public FitnessTestProgressViewModel()
         {
             
         }
 
-        public FitnessTestViewModel(int id, string name, bool completed)
+        public FitnessTestProgressViewModel(int id, string skillName, string name, bool completed)
         {
             Id = id;
+            SkillName = skillName;
             Name = name;
             Completed = completed;
         }

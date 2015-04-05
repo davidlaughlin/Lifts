@@ -1,9 +1,10 @@
 ﻿@{
     ViewBag.Title = "Some Skill";
 }
+
 <div class="row">
     <div class="col-sm-12">
-        <h2>Flexibility</h2>
+        <h2 data-bind="text: skillName"></h2>
         <ul class="skill-bar">
             <li>
                 <div class="meter">
@@ -16,10 +17,10 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <ul class="skill-bar" data-bind="foreach: allItems">
+        <ul class="skill-bar" data-bind="foreach: allFitnessTests">
             <li>
                 <label>
-                    <input type="checkbox" data-bind="checkedValue: completed, checked: completed">
+                    <input type="checkbox" data-bind="checkedValue: completed, checked: completed, click: function(data, event) {return $parent.onCheckBoxClick($index, data, event)}">
                     <span data-bind="text: name"></span>
                 </label>
             </li>
@@ -29,5 +30,5 @@
 
 @section Scripts
 {
-    <script src="~/KnockoutViewModels/FitnessTestViewModel.js"></script>
+    <script src="~/KnockoutViewModels/FitnessTestListViewModel.js"></script>
 }

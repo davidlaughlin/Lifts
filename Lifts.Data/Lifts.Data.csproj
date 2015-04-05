@@ -55,7 +55,10 @@
       <DependentUpon>LiftsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DomainModel\Athlete.cs" />
+    <Compile Include="DomainModel\DomainObject.cs" />
+    <Compile Include="DomainModel\Roster.cs" />
     <Compile Include="DomainModel\Skill.cs" />
+    <Compile Include="DomainModel\SkillProgress.cs" />
     <Compile Include="FitnessTest.cs">
       <DependentUpon>LiftsModel.tt</DependentUpon>
     </Compile>
@@ -77,11 +80,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AthleteRepository.cs" />
     <Compile Include="Repositories\IAthleteRepository.cs" />
+    <Compile Include="Repositories\IRosterRepository.cs" />
     <Compile Include="Repositories\ISkillRepository.cs" />
+    <Compile Include="Repositories\RosterRepository.cs" />
     <Compile Include="Repositories\SkillRepository.cs" />
+    <Compile Include="Roster.cs">
+      <DependentUpon>LiftsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RosterAthlete.cs">
+      <DependentUpon>LiftsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Skill.cs">
       <DependentUpon>LiftsModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SkillProgressCalculator.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="LiftsModel.edmx">

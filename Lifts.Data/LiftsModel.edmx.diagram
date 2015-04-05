@@ -12,6 +12,10 @@
         <EntityTypeShape EntityType="LiftsDbModel.AthleteFitnessTest" Width="1.5" PointX="5.25" PointY="0.875" />
         <AssociationConnector Association="LiftsDbModel.FK_AthleteFitnessTest_Athlete" />
         <AssociationConnector Association="LiftsDbModel.FK_AthleteFitnessTest_FitnessTest" />
+        <EntityTypeShape EntityType="LiftsDbModel.Roster" Width="1.5" PointX="3" PointY="7.375" />
+        <EntityTypeShape EntityType="LiftsDbModel.RosterAthlete" Width="1.5" PointX="5.25" PointY="4.125" />
+        <AssociationConnector Association="LiftsDbModel.FK_RosterAthlete_Athlete" />
+        <AssociationConnector Association="LiftsDbModel.FK_RosterAthlete_RosterAthlete" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

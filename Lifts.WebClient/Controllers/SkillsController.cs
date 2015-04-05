@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Web;
 using System.Web.Mvc;
 using Lifts.Data;
+using Lifts.Data.DomainModel;
 using Lifts.Data.Repositories;
-using Lifts.Data.Repository.UnitsOfWork;
 using Lifts.WebClient.ActionResults;
 using Lifts.WebClient.ViewModels;
 
@@ -25,29 +22,16 @@ namespace Lifts.WebClient.Controllers
             _athleteRepository = athleteRepository;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int athleteId)
         {
-            IEnumerable<SkillProgressViewModel> viewModel = GetSkills();
-
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(viewModel);
-            }
-
-            return View(viewModel);
-        }
-
-        public ActionResult Detail(string name)
-        {
-            IEnumerable<FitnessTestViewModel> viewModel;
-            SkillProgressViewModel skill = GetSkills().FirstOrDefault(each => each.Name == name);
-
-            if (skill == null)
+            Athlete athlete = _athleteRepository.Find(each => each.Id == athleteId).FirstOrDefault();
+            if (athlete == null)
             {
                 return new HttpNotFoundResult();
             }
 
-            viewModel = GetFitnessTests(name);
+            SkillProgressCalculator calculator = new SkillProgressCalculator(_skillRepository.All());
+            IEnumerable<SkillProgressViewModel> viewModel = calculator.Calculate(athlete).Select(each => new SkillProgressViewModel(each));
 
             if (Request.IsAjaxRequest())
             {
@@ -57,49 +41,63 @@ namespace Lifts.WebClient.Controllers
             return View(viewModel);
         }
 
-
-        private IEnumerable<SkillProgressViewModel> GetSkills()
+        public ActionResult Detail(int athleteId, string name)
         {
-            List<SkillProgressViewModel> skills = new List<SkillProgressViewModel>();
+            List<FitnessTestProgressViewModel> viewModel = new List<FitnessTestProgressViewModel>();
+            Skill skill = _skillRepository.Find(each => each.Name == name).FirstOrDefault();
+            Athlete athlete = _athleteRepository.Find(each => each.Id == athleteId).FirstOrDefault();
 
-            Athlete athlete = _athleteRepository.Find(each => each.LastName == "Laughlin").FirstOrDefault();
-            if (athlete == null)
+            if (skill == null || athlete == null)
             {
-                return null;
+                return new HttpNotFoundResult();
             }
 
-            foreach (Skill skill in _skillRepository.All())
+            foreach (FitnessTest fitnessTest in skill.FitnessTests)
             {
-                IEnumerable<AthleteFitnessTest> fitnessTests = athlete.AthleteFitnessTests.Where(fitnessTest => fitnessTest.FitnessTest.Skill == skill);
-                skills.Add(new SkillProgressViewModel(skill.Id, skill.Name, skill.Description, fitnessTests.Count()*10)
+                if (athlete.AthleteFitnessTests.Any(each => each.FitnessTestId == fitnessTest.Id))
                 {
-                    AthleteName = string.Format("{0} {1}", athlete.FirstName, athlete.LastName)
-                });
-            };
+                    bool completed = athlete.AthleteFitnessTests.First(each => each.FitnessTestId == fitnessTest.Id).Completed;
+                    viewModel.Add(new FitnessTestProgressViewModel(fitnessTest.Id, skill.Name, fitnessTest.Name, completed));
+                }
+                else
+                {
+                    viewModel.Add(new FitnessTestProgressViewModel(fitnessTest.Id, skill.Name, fitnessTest.Name, false));
+                }
 
-            return skills;
-        }
+            }
 
-        private IEnumerable<FitnessTestViewModel> GetFitnessTests(string name)
-        {
-            List<FitnessTestViewModel> tests = new List<FitnessTestViewModel>
+            if (Request.IsAjaxRequest())
             {
-                new FitnessTestViewModel(0, "Sit and Reach", false),
-                new FitnessTestViewModel(1, "V-Sit", false),
-                new FitnessTestViewModel(2, "Groin Flexibility", true),
-                new FitnessTestViewModel(3, "Calf Muscle Flexibility", true),
-                new FitnessTestViewModel(4, "Trunk Rotation", false),
-                new FitnessTestViewModel(5, "Shoulder Flex", false),
-                new FitnessTestViewModel(6, "Shoulder Circumduction", false),
-                new FitnessTestViewModel(7, "Shoulder Rotation", true),
-                new FitnessTestViewModel(8, "Back Scratch", true),
-                new FitnessTestViewModel(9, "Shoulder Stretch", false),
-            };
+                return new JsonNetResult(viewModel);
+            }
 
-
-            return tests;
+            return View(viewModel);
         }
 
+        [HttpPost]
+        public ActionResult Save(int athleteId, FitnessTestProgressViewModel fitnessTest)
+        {
+            Athlete athlete = _athleteRepository.Find(each => each.Id == athleteId).FirstOrDefault();
+            if (athlete != null)
+            {
+                AthleteFitnessTest athleteFitnessTest = athlete.AthleteFitnessTests.FirstOrDefault(each => each.FitnessTestId == fitnessTest.Id);
+                if (athleteFitnessTest != null)
+                {
+                    athleteFitnessTest.Completed = fitnessTest.Completed;
+                }
+                else
+                {
+                    athleteFitnessTest = new AthleteFitnessTest();
+                    athleteFitnessTest.Athlete = athlete;
+                    athleteFitnessTest.FitnessTestId = fitnessTest.Id;
+                    athleteFitnessTest.Completed = fitnessTest.Completed;
+                    athlete.AthleteFitnessTests.Add(athleteFitnessTest);
+                }
 
+                return new JsonNetResult(new { success = true });
+            }
+            
+            return new JsonNetResult(new { success = false });
+        }
     }
 }

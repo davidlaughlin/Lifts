@@ -184,16 +184,19 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RosterController.cs" />
     <Compile Include="Controllers\SkillsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\AccountViewModels.cs" />
-    <Compile Include="ViewModels\FitnessTestViewModel.cs" />
+    <Compile Include="ViewModels\AthleteViewModel.cs" />
+    <Compile Include="ViewModels\FitnessTestProgressViewModel.cs" />
     <Compile Include="ViewModels\IdentityModels.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\RosterViewModel.cs" />
     <Compile Include="ViewModels\SkillProgressViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -798,8 +801,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="KnockoutViewModels\FitnessTestViewModel.js" />
-    <Content Include="KnockoutViewModels\SkillViewModel.js" />
+    <Content Include="KnockoutViewModels\FitnessTestListViewModel.js" />
+    <Content Include="KnockoutViewModels\RosterDetailViewModel.js" />
+    <Content Include="KnockoutViewModels\RosterListViewModel.js" />
+    <Content Include="KnockoutViewModels\SkillListViewModel.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\genius_v_1_0_4_html\assets\css\bootstrap-theme.css.map" />
@@ -937,6 +942,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Skills\Index.cshtml" />
     <Content Include="Views\Skills\Detail.cshtml" />
+    <Content Include="Views\Roster\Index.cshtml" />
+    <Content Include="Views\Roster\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

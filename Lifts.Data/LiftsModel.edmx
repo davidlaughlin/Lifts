@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
@@ -17,7 +17,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AthleteId" Type="int" Nullable="false" />
           <Property Name="FitnessTestId" Type="int" Nullable="false" />
           <Property Name="Completed" Type="bit" Nullable="false" />
@@ -26,10 +26,25 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SkillId" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Roster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RosterAthlete">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="RosterId" Type="int" Nullable="false" />
+          <Property Name="AthleteId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Skill">
           <Key>
@@ -75,10 +90,36 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RosterAthlete_Athlete">
+          <End Role="Athlete" Type="Self.Athlete" Multiplicity="1" />
+          <End Role="RosterAthlete" Type="Self.RosterAthlete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Athlete">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RosterAthlete">
+              <PropertyRef Name="AthleteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RosterAthlete_RosterAthlete">
+          <End Role="Roster" Type="Self.Roster" Multiplicity="1" />
+          <End Role="RosterAthlete" Type="Self.RosterAthlete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RosterAthlete">
+              <PropertyRef Name="RosterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="LiftsDbModelStoreContainer">
           <EntitySet Name="Athlete" EntityType="Self.Athlete" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AthleteFitnessTest" EntityType="Self.AthleteFitnessTest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FitnessTest" EntityType="Self.FitnessTest" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roster" EntityType="Self.Roster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RosterAthlete" EntityType="Self.RosterAthlete" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Skill" EntityType="Self.Skill" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AthleteFitnessTest_Athlete" Association="Self.FK_AthleteFitnessTest_Athlete">
             <End Role="Athlete" EntitySet="Athlete" />
@@ -91,6 +132,14 @@
           <AssociationSet Name="FK_FitnessTest_Skill" Association="Self.FK_FitnessTest_Skill">
             <End Role="Skill" EntitySet="Skill" />
             <End Role="FitnessTest" EntitySet="FitnessTest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RosterAthlete_Athlete" Association="Self.FK_RosterAthlete_Athlete">
+            <End Role="Athlete" EntitySet="Athlete" />
+            <End Role="RosterAthlete" EntitySet="RosterAthlete" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RosterAthlete_RosterAthlete" Association="Self.FK_RosterAthlete_RosterAthlete">
+            <End Role="Roster" EntitySet="Roster" />
+            <End Role="RosterAthlete" EntitySet="RosterAthlete" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -146,6 +195,16 @@
             <End Role="FitnessTest" EntitySet="FitnessTests" />
             <End Role="AthleteFitnessTest" EntitySet="AthleteFitnessTests" />
           </AssociationSet>
+          <EntitySet Name="Rosters" EntityType="LiftsDbModel.Roster" />
+          <EntitySet Name="RosterAthletes" EntityType="LiftsDbModel.RosterAthlete" />
+          <AssociationSet Name="FK_RosterAthlete_Athlete" Association="LiftsDbModel.FK_RosterAthlete_Athlete">
+            <End Role="Athlete" EntitySet="Athletes" />
+            <End Role="RosterAthlete" EntitySet="RosterAthletes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RosterAthlete_RosterAthlete" Association="LiftsDbModel.FK_RosterAthlete_RosterAthlete">
+            <End Role="Roster" EntitySet="Rosters" />
+            <End Role="RosterAthlete" EntitySet="RosterAthletes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Athlete">
           <Key>
@@ -155,6 +214,7 @@
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="AthleteFitnessTests" Relationship="LiftsDbModel.FK_AthleteFitnessTest_Athlete" FromRole="Athlete" ToRole="AthleteFitnessTest" />
+          <NavigationProperty Name="RosterAthletes" Relationship="LiftsDbModel.FK_RosterAthlete_Athlete" FromRole="Athlete" ToRole="RosterAthlete" />
         </EntityType>
         <EntityType Name="AthleteFitnessTest">
           <Key>
@@ -188,6 +248,48 @@
             </Principal>
             <Dependent Role="AthleteFitnessTest">
               <PropertyRef Name="FitnessTestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Roster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RosterAthletes" Relationship="LiftsDbModel.FK_RosterAthlete_RosterAthlete" FromRole="Roster" ToRole="RosterAthlete" />
+        </EntityType>
+        <EntityType Name="RosterAthlete">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="RosterId" Type="Int32" Nullable="false" />
+          <Property Name="AthleteId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Athlete" Relationship="LiftsDbModel.FK_RosterAthlete_Athlete" FromRole="RosterAthlete" ToRole="Athlete" />
+          <NavigationProperty Name="Roster" Relationship="LiftsDbModel.FK_RosterAthlete_RosterAthlete" FromRole="RosterAthlete" ToRole="Roster" />
+        </EntityType>
+        <Association Name="FK_RosterAthlete_Athlete">
+          <End Type="LiftsDbModel.Athlete" Role="Athlete" Multiplicity="1" />
+          <End Type="LiftsDbModel.RosterAthlete" Role="RosterAthlete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Athlete">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RosterAthlete">
+              <PropertyRef Name="AthleteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RosterAthlete_RosterAthlete">
+          <End Type="LiftsDbModel.Roster" Role="Roster" Multiplicity="1" />
+          <End Type="LiftsDbModel.RosterAthlete" Role="RosterAthlete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RosterAthlete">
+              <PropertyRef Name="RosterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -231,6 +333,23 @@
                 <ScalarProperty Name="Completed" ColumnName="Completed" />
                 <ScalarProperty Name="FitnessTestId" ColumnName="FitnessTestId" />
                 <ScalarProperty Name="AthleteId" ColumnName="AthleteId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rosters">
+            <EntityTypeMapping TypeName="LiftsDbModel.Roster">
+              <MappingFragment StoreEntitySet="Roster">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RosterAthletes">
+            <EntityTypeMapping TypeName="LiftsDbModel.RosterAthlete">
+              <MappingFragment StoreEntitySet="RosterAthlete">
+                <ScalarProperty Name="AthleteId" ColumnName="AthleteId" />
+                <ScalarProperty Name="RosterId" ColumnName="RosterId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
