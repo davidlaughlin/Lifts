@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Lifts.Data.Repository.UnitsOfWork
@@ -56,6 +57,8 @@ namespace Lifts.Data.Repository.UnitsOfWork
 
         public void Dispose()
         {
+            Debug.WriteLine("Disposing EntityFrameworkUnitOfWork");
+            SaveChanges();
             _context.Dispose();
         }
 

@@ -20,7 +20,8 @@ namespace Lifts.WebClient
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
-                        "~/Scripts/knockout-*"));
+                        "~/Scripts/knockout-*",
+                        "~/Scripts/knockout.mapping-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Content/genius_v_1_0_4_html/assets/js/bootstrap.js",

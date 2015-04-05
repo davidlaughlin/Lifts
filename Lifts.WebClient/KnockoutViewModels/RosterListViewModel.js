@@ -1,5 +1,4 @@
 ﻿var RosterListViewModel = {
-
     // Properties
     allRosters: ko.observableArray([]),
 
@@ -9,7 +8,8 @@
         var url = "/Roster/Index/";
         $.ajax(url, {
             type: "GET",
-            cache: false
+            cache: false,
+            async: false
         }).done(function(data) {
             //ko.mapping.fromJS(data, {}, self);
             for (var i = 0; i < data.length; i++) {
@@ -27,8 +27,3 @@
         });
     }
 }
-
-$(function () {
-    ko.applyBindings(RosterListViewModel);
-    RosterListViewModel.getAllRosters();
-})

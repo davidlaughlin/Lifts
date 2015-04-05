@@ -16,13 +16,24 @@ namespace Lifts.WebClient.Controllers
 {
     public abstract class BaseController : Controller
     {
-
-        protected override void Dispose(bool disposing)
+        protected new ViewResult View(object model)
         {
-            IUnitOfWork unitOfWork = UnityConfig.GetConfiguredContainer().Resolve(typeof(IUnitOfWork)) as IUnitOfWork;
+            IHtmlString payload = SerializeObject(model);
+            return base.View(payload);
+        }
 
-            unitOfWork.SaveChanges();
-            //unitOfWork.Dispose(); // Will unity do this?
+        protected IHtmlString SerializeObject(object value)
+        {
+            using (var stringWriter = new StringWriter())
+            using (var jsonWriter = new JsonTextWriter(stringWriter))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                jsonWriter.QuoteName = false;   // We don't want quotes around object names
+                serializer.Serialize(jsonWriter, value);
+
+                return new HtmlString(stringWriter.ToString());
+            }
         }
 
     }

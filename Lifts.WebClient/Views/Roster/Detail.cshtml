@@ -14,13 +14,13 @@
                 </tr>
             </thead>
             <tbody data-bind="foreach: allAthletes">
-            <tr>
-                <td>
-                    <a data-bind="attr: {href: athleteLink}, text: lastName">
-                    </a>
-                </td>
-                <td data-bind="text: firstName"/>
-            </tr>
+                <tr>
+                    <td>
+                        <a data-bind="attr: {href: athleteLink}, text: lastName">
+                        </a>
+                    </td>
+                    <td data-bind="text: firstName" />
+                </tr>
             </tbody>
         </table>
     </div>
@@ -29,4 +29,11 @@
 @section Scripts
 {
     <script src="~/KnockoutViewModels/RosterDetailViewModel.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            var viewModel = ko.mapping.fromJS(@Html.Raw(Model));
+            ko.applyBindings(viewModel);
+        });
+    </script>
 }

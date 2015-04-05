@@ -41,7 +41,11 @@ namespace Lifts.WebClient.App_Start
             // TODO: Register your types here
             // container.RegisterType<IProductRepository, ProductRepository>();
 
-            container.RegisterType<IUnitOfWork, EntityFrameworkUnitOfWork>(new InjectionConstructor(new LiftsDbEntities()));
+            container.RegisterType<IUnitOfWork, EntityFrameworkUnitOfWork>
+                (
+                    new PerRequestLifetimeManager(),
+                    new InjectionConstructor("LiftsDbEntities")
+                );
 
             container.RegisterType<ISkillRepository, SkillRepository>();
             container.RegisterType<IAthleteRepository, AthleteRepository>();

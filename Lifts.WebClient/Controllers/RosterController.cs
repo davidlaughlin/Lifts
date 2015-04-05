@@ -11,7 +11,7 @@ using Lifts.WebClient.ViewModels;
 
 namespace Lifts.WebClient.Controllers
 {
-    public class RosterController : Controller
+    public class RosterController : BaseController
     {
         private readonly IRosterRepository _rosterRepository;
         private readonly IAthleteRepository _athleteRepository;
@@ -25,12 +25,14 @@ namespace Lifts.WebClient.Controllers
         // GET: Roster
         public ActionResult Index()
         {
-            List<RosterViewModel> viewModel = new List<RosterViewModel>();
+            List<RosterlViewModel> rosterViewModels =new List<RosterlViewModel>();
             List<Roster> rosters = _rosterRepository.All().ToList();
             foreach (Roster roster in rosters)
             {
-                viewModel.Add(new RosterViewModel(roster.Id, roster.Name, roster.RosterAthletes.Count()));
+                rosterViewModels.Add(new RosterlViewModel(roster.Id, roster.Name, roster.RosterAthletes.Count()));
             }
+
+            RosterListViewModel viewModel = new RosterListViewModel(rosterViewModels);
 
             if (Request.IsAjaxRequest())
             {
@@ -42,7 +44,7 @@ namespace Lifts.WebClient.Controllers
 
         public ActionResult Detail(int rosterId)
         {
-            List<AthleteViewModel> viewModel = new List<AthleteViewModel>();
+            List<AthleteViewModel> athleteViewModels = new List<AthleteViewModel>();
             Roster roster = _rosterRepository.Find(each => each.Id == rosterId).FirstOrDefault();
             if (roster == null)
             {
@@ -51,8 +53,10 @@ namespace Lifts.WebClient.Controllers
 
             foreach (RosterAthlete athlete in roster.RosterAthletes)
             {
-                viewModel.Add(new AthleteViewModel(athlete.AthleteId, athlete.Athlete.FirstName, athlete.Athlete.LastName));
+                athleteViewModels.Add(new AthleteViewModel(athlete.AthleteId, athlete.Athlete.FirstName, athlete.Athlete.LastName));
             }
+
+            RosterDetailViewModel viewModel = new RosterDetailViewModel(athleteViewModels);
 
             if (Request.IsAjaxRequest())
             {
