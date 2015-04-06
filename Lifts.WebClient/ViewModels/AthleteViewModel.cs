@@ -17,7 +17,7 @@ namespace Lifts.WebClient.ViewModels
             Id = id;
             FirstName = firstName;
             LastName = lastName;
-            AthleteLink = "/Skills/Index?athleteId=" + id;
+            AthleteLink = "/Athlete/Skills?athleteId=" + id;
         }
     }
 }

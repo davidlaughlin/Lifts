@@ -37,7 +37,7 @@ namespace Lifts.WebClient.ViewModels
             Description = description;
             Total = total;
             Completed = completed;
-            SkillDetailLink = "/Skills/Detail?athleteId=" + athleteId + "&name=" + name;
+            SkillDetailLink = "/Athlete/FitnessTests?athleteId=" + athleteId + "&name=" + name;
             if (total == 0)
             {
                 Progress = 0.0;

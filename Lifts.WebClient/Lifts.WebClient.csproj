@@ -181,6 +181,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AthleteController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -200,6 +201,7 @@
     <Compile Include="ViewModels\RosterDetailViewModel.cs" />
     <Compile Include="ViewModels\RosterListViewModel.cs" />
     <Compile Include="ViewModels\RosterlViewModel.cs" />
+    <Compile Include="ViewModels\RosterSkillListViewModel.cs" />
     <Compile Include="ViewModels\SkillListViewModel.cs" />
     <Compile Include="ViewModels\SkillProgressViewModel.cs" />
   </ItemGroup>
@@ -947,6 +949,9 @@
     <Content Include="Views\Skills\Detail.cshtml" />
     <Content Include="Views\Roster\Index.cshtml" />
     <Content Include="Views\Roster\Detail.cshtml" />
+    <Content Include="Views\Athlete\Index.cshtml" />
+    <Content Include="Views\Athlete\Skills.cshtml" />
+    <Content Include="Views\Athlete\FitnessTests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
