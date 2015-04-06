@@ -31,7 +31,9 @@ namespace Lifts.WebClient.Controllers
             }
 
             SkillProgressCalculator calculator = new SkillProgressCalculator(_skillRepository.All());
-            IEnumerable<SkillProgressViewModel> viewModel = calculator.Calculate(athlete).Select(each => new SkillProgressViewModel(each));
+            IEnumerable<SkillProgressViewModel> skills = calculator.Calculate(athlete).Select(each => new SkillProgressViewModel(athleteId, each));
+
+            SkillListViewModel viewModel = new SkillListViewModel(athlete.FirstName, athlete.LastName, skills);
 
             if (Request.IsAjaxRequest())
             {
@@ -43,7 +45,7 @@ namespace Lifts.WebClient.Controllers
 
         public ActionResult Detail(int athleteId, string name)
         {
-            List<FitnessTestProgressViewModel> viewModel = new List<FitnessTestProgressViewModel>();
+            List<FitnessTestProgressViewModel> fitnessTests = new List<FitnessTestProgressViewModel>();
             Skill skill = _skillRepository.Find(each => each.Name == name).FirstOrDefault();
             Athlete athlete = _athleteRepository.Find(each => each.Id == athleteId).FirstOrDefault();
 
@@ -57,14 +59,15 @@ namespace Lifts.WebClient.Controllers
                 if (athlete.AthleteFitnessTests.Any(each => each.FitnessTestId == fitnessTest.Id))
                 {
                     bool completed = athlete.AthleteFitnessTests.First(each => each.FitnessTestId == fitnessTest.Id).Completed;
-                    viewModel.Add(new FitnessTestProgressViewModel(fitnessTest.Id, skill.Name, fitnessTest.Name, completed));
+                    fitnessTests.Add(new FitnessTestProgressViewModel(fitnessTest.Id, skill.Name, fitnessTest.Name, completed));
                 }
                 else
                 {
-                    viewModel.Add(new FitnessTestProgressViewModel(fitnessTest.Id, skill.Name, fitnessTest.Name, false));
+                    fitnessTests.Add(new FitnessTestProgressViewModel(fitnessTest.Id, skill.Name, fitnessTest.Name, false));
                 }
-
             }
+
+            FitnessTestListViewModel viewModel = new FitnessTestListViewModel(skill.Name, athlete.FirstName, athlete.LastName, fitnessTests);
 
             if (Request.IsAjaxRequest())
             {

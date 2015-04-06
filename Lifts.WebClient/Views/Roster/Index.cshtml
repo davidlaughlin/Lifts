@@ -28,14 +28,10 @@
 
 @section Scripts
 {
-    <script src="~/KnockoutViewModels/RosterListViewModel.js"></script>
-
     <script type="text/javascript">
         $(function () {
             var viewModel = ko.mapping.fromJS(@Html.Raw(Model));
             ko.applyBindings(viewModel);
         });
     </script>
-
-
 }

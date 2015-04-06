@@ -3,7 +3,7 @@
     ViewBag.Title = "Core Skills";
 }
 
-<h2>Core Skills</h2>
+<h2 data-bind="text: 'Core Skills for ' + athleteFirstName() + ' ' + athleteLastName()"></h2>
 
 <div class="row">
     <div class="col-sm-12">
@@ -13,7 +13,7 @@
                     <h5 data-bind="text: name"></h5>
                 </a>
                 <div class="meter">
-                    <span data-bind="css: {darkGreen: progress == 100, green: progress < 100 & progress > 75, blue: progress <= 75 & progress > 50, lightOrange: progress <= 50 & progress > 25, red: progress < 25 }, style: { width: progress + '%' }, text: progress + '%'"></span>
+                    <span data-bind="css: {darkGreen: progress() == 100, green: progress() < 100 & progress() > 75, blue: progress() <= 75 & progress() > 50, lightOrange: progress() <= 50 & progress() > 25, red: progress() < 25 }, style: { width: progress() + '%' }, text: progress() + '%'"></span>
                 </div>
             </li>
         </ul>
@@ -22,5 +22,10 @@
 
 @section Scripts
 {
-    <script src="~/KnockoutViewModels/SkillListViewModel.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var viewModel = ko.mapping.fromJS(@Html.Raw(Model));
+            ko.applyBindings(viewModel);
+        });
+    </script>
 }

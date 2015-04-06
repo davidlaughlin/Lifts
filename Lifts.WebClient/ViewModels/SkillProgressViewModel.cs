@@ -9,7 +9,6 @@ namespace Lifts.WebClient.ViewModels
 {
     public class SkillProgressViewModel
     {
-        public string AthleteName { get; set; }
 
         public int Id { get; set; }
         public string Name { get; set; }
@@ -17,26 +16,28 @@ namespace Lifts.WebClient.ViewModels
         public int Completed { get; set; }
         public int Total { get; set; }
         public double Progress { get; set; }
+        public string SkillDetailLink { get; set; }
 
         public SkillProgressViewModel()
         {
             
         }
 
-        public SkillProgressViewModel(SkillProgress skillProgress)
-            :this(skillProgress.SkillId, skillProgress.SkillName, string.Empty, skillProgress.CompletedTests, skillProgress.TotalTests)
+        public SkillProgressViewModel(int athleteId, SkillProgress skillProgress)
+            :this(skillProgress.SkillId, athleteId, skillProgress.SkillName, string.Empty, skillProgress.CompletedTests, skillProgress.TotalTests)
         {
             
         }
 
 
-        public SkillProgressViewModel(int id, string name, string description, int completed, int total)
+        public SkillProgressViewModel(int id, int athleteId, string name, string description, int completed, int total)
         {
             Id = id;
             Name = name;
             Description = description;
             Total = total;
             Completed = completed;
+            SkillDetailLink = "/Skills/Detail?athleteId=" + athleteId + "&name=" + name;
             if (total == 0)
             {
                 Progress = 0.0;

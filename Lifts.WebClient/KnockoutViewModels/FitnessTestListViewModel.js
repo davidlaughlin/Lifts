@@ -1,8 +1,6 @@
 ﻿var FitnessTestListViewModel = {
 
-    //Properties
-    allFitnessTests: ko.observableArray(),
-    skillName: ko.observable("Skill Detail"),   // Appropriate name isn't showing
+    
 
     // Functions
     getAllFitnessTests: function () {

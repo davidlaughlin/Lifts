@@ -191,6 +191,7 @@
     </Compile>
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="ViewModels\AthleteViewModel.cs" />
+    <Compile Include="ViewModels\FitnessTestListViewModel.cs" />
     <Compile Include="ViewModels\FitnessTestProgressViewModel.cs" />
     <Compile Include="ViewModels\IdentityModels.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="ViewModels\RosterDetailViewModel.cs" />
     <Compile Include="ViewModels\RosterListViewModel.cs" />
     <Compile Include="ViewModels\RosterlViewModel.cs" />
+    <Compile Include="ViewModels\SkillListViewModel.cs" />
     <Compile Include="ViewModels\SkillProgressViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -804,9 +806,6 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="KnockoutViewModels\FitnessTestListViewModel.js" />
-    <Content Include="KnockoutViewModels\RosterDetailViewModel.js" />
-    <Content Include="KnockoutViewModels\RosterListViewModel.js" />
-    <Content Include="KnockoutViewModels\SkillListViewModel.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\genius_v_1_0_4_html\assets\css\bootstrap-theme.css.map" />
