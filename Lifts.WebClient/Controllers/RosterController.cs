@@ -15,11 +15,13 @@ namespace Lifts.WebClient.Controllers
     {
         private readonly IRosterRepository _rosterRepository;
         private readonly IAthleteRepository _athleteRepository;
+        private readonly ISkillRepository _skillRepository;
 
-        public RosterController(IRosterRepository rosterRepository, IAthleteRepository athleteRepository)
+        public RosterController(IRosterRepository rosterRepository, IAthleteRepository athleteRepository, ISkillRepository skillRepository)
         {
             _rosterRepository = rosterRepository;
             _athleteRepository = athleteRepository;
+            _skillRepository = skillRepository;
         }
 
         // GET: Roster
@@ -65,5 +67,22 @@ namespace Lifts.WebClient.Controllers
 
             return View(viewModel);
         }
+
+        public ActionResult Skills(int rosterId)
+        {
+            Roster roster = _rosterRepository.Find(each => each.Id == rosterId).FirstOrDefault();
+            if (roster == null)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            SkillProgressCalculator calculator = new SkillProgressCalculator(_skillRepository.All());
+            IEnumerable<SkillProgressViewModel> skills = calculator.Calculate(roster).Select(each => new SkillProgressViewModel(rosterId, each));
+
+            RosterSkillListViewModel viewModel = new RosterSkillListViewModel(roster.Name, skills);
+
+            return View(viewModel);
+        }
+
     }
 }

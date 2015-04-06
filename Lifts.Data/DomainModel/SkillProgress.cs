@@ -8,10 +8,10 @@ namespace Lifts.Data.DomainModel
 {
     public class SkillProgress : DomainObject
     {
-        public int SkillId { get; set; }
+        public int SkillId { get; private set; }
         public string SkillName { get; private set; }
-        public int TotalTests { get; private set; }
-        public int CompletedTests { get; private set; }
+        public int TotalTests { get; set; }
+        public int CompletedTests { get; set; }
 
         public SkillProgress(Skill skill, int totalTests, int completedTests)
         {

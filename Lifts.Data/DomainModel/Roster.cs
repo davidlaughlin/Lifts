@@ -9,5 +9,10 @@ namespace Lifts.Data
 {
     public partial class Roster : IAggregateRoot
     {
+        public IEnumerable<Athlete> Athletes
+        {
+            get { return this.RosterAthletes.Select(each => each.Athlete); }
+
+        }
     }
 }

@@ -18,26 +18,41 @@ namespace Lifts.Data
 
         public IEnumerable<SkillProgress> Calculate(Athlete athlete)
         {
-            List<SkillProgress> skillProgresses = new List<SkillProgress>();
-            foreach (Skill skill in _skills)
-            {
-                int total = 0;
-                int completed = 0;
-                foreach (FitnessTest fitnessTest in skill.FitnessTests)
-                {
-                    total++;
-                    AthleteFitnessTest fitnessTestProgress = athlete.AthleteFitnessTests.FirstOrDefault(each => each.FitnessTestId == fitnessTest.Id);
-                    if (fitnessTestProgress != null && fitnessTestProgress.Completed)
-                    {
-                        completed++;
-                    }  
-                }
-
-                skillProgresses.Add(new SkillProgress(skill, total, completed));
-            }
-
-            return skillProgresses;
+            Dictionary<Skill, SkillProgress> accumulatedProgress = new Dictionary<Skill, SkillProgress>();
+            this.CalculateInternal(athlete, accumulatedProgress);
+            return accumulatedProgress.Values;
         }
 
+        public IEnumerable<SkillProgress> Calculate(Roster roster)
+        {
+            Dictionary<Skill, SkillProgress> accumulatedProgress = new Dictionary<Skill, SkillProgress>();
+            foreach (Athlete athlete in roster.Athletes)
+            {
+                CalculateInternal(athlete, accumulatedProgress);
+            }
+            return accumulatedProgress.Values;
+        }
+
+        private void CalculateInternal(Athlete athlete, Dictionary<Skill, SkillProgress> accumulatedProgress)
+        {
+            foreach (Skill skill in _skills)
+            {
+                foreach (FitnessTest fitnessTest in skill.FitnessTests)
+                {
+                    AthleteFitnessTest fitnessTestProgress = athlete.AthleteFitnessTests.FirstOrDefault(each => each.FitnessTestId == fitnessTest.Id);
+                    if (!accumulatedProgress.ContainsKey(skill))
+                    {
+                        accumulatedProgress.Add(skill, new SkillProgress(skill, 0, 0));
+                    }
+
+                    if (fitnessTestProgress != null && fitnessTestProgress.Completed)
+                    {
+                        accumulatedProgress[skill].CompletedTests++;
+                    }
+
+                    accumulatedProgress[skill].TotalTests++;
+                }
+            }
+        }
     }
 }

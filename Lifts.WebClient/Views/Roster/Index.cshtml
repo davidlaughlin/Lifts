@@ -9,6 +9,8 @@
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
+                    <td></td>
+                    <td></td>
                     <td>Roster Name</td>
                     <td>Enrollment</td>
                 </tr>
@@ -16,9 +18,16 @@
             <tbody data-bind="foreach: allRosters">
                 <tr>
                     <td>
-                        <a data-bind="attr: {href: rosterLink}, text: name">
+                        <a data-bind="attr: {href: rosterViewLink}">
+                            <h5>View Enrollees</h5>
                         </a>
                     </td>
+                    <td>
+                        <a data-bind="attr: {href: rosterSkillsLink}">
+                            <h5>View Skills</h5>
+                        </a>
+                    </td>
+                    <td data-bind="text: name"></td>
                     <td data-bind="text: enrollment"></td>
                 </tr>
             </tbody>

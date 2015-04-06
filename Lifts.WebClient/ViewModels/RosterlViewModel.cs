@@ -10,14 +10,16 @@ namespace Lifts.WebClient.ViewModels
         public int Id { get; set; }
         public string Name { get; set; }
         public int Enrollment { get; set; }
-        public string RosterLink { get; set; }
+        public string RosterViewLink { get; private set; }
+        public string RosterSkillsLink { get; private set; }
 
         public RosterlViewModel(int id, string name, int enrollment)
         {
             Id = id;
             Name = name;
             Enrollment = enrollment;
-            RosterLink = "/Roster/Detail?rosterId=" + id;
+            RosterViewLink = "/Roster/Detail?rosterId=" + id;
+            RosterSkillsLink = "/Roster/Skills?rosterId=" + id;
         }
     }
 }
