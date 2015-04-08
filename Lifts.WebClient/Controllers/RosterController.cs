@@ -27,11 +27,11 @@ namespace Lifts.WebClient.Controllers
         // GET: Roster
         public ActionResult Index()
         {
-            List<RosterlViewModel> rosterViewModels =new List<RosterlViewModel>();
+            List<RosterViewModel> rosterViewModels =new List<RosterViewModel>();
             List<Roster> rosters = _rosterRepository.All().ToList();
             foreach (Roster roster in rosters)
             {
-                rosterViewModels.Add(new RosterlViewModel(roster.Id, roster.Name, roster.RosterAthletes.Count()));
+                rosterViewModels.Add(new RosterViewModel(roster.Id, roster.Name, roster.RosterAthletes.Count()));
             }
 
             RosterListViewModel viewModel = new RosterListViewModel(rosterViewModels);

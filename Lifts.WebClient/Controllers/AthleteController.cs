@@ -13,11 +13,13 @@ namespace Lifts.WebClient.Controllers
     public class AthleteController : BaseController
     {
         private readonly AthleteRepository _athleteRepository;
+        private readonly RosterRepository _rosterRepository;
         private readonly SkillRepository _skillRepository;
 
-        public AthleteController(AthleteRepository athleteRepository, SkillRepository skillRepository)
+        public AthleteController(AthleteRepository athleteRepository, RosterRepository rosterRepository, SkillRepository skillRepository)
         {
             _athleteRepository = athleteRepository;
+            _rosterRepository = rosterRepository;
             _skillRepository = skillRepository;
         }
 
@@ -107,5 +109,35 @@ namespace Lifts.WebClient.Controllers
 
             return new JsonNetResult(new { success = false });
         }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            IEnumerable<Roster> rosters = _rosterRepository.All();
+            List<RosterViewModel> rosterViewModels = new List<RosterViewModel>();
+            foreach (Roster roster in rosters)
+            {
+                rosterViewModels.Add(new RosterViewModel(roster.Id, roster.Name, 0));
+            }
+
+            AthleteCreateViewModel viewModel = new AthleteCreateViewModel(rosterViewModels);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Create(AthleteCreateViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                // bad
+                return View(viewModel);
+            }
+
+            // success
+            return View();
+        }
+
+
     }
 }

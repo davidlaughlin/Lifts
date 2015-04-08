@@ -7,9 +7,9 @@ namespace Lifts.WebClient.ViewModels
 {
     public class RosterListViewModel
     {
-        public IEnumerable<RosterlViewModel> AllRosters { get; private set; }
+        public IEnumerable<RosterViewModel> AllRosters { get; private set; }
 
-        public RosterListViewModel(IEnumerable<RosterlViewModel> rosters)
+        public RosterListViewModel(IEnumerable<RosterViewModel> rosters)
         {
             AllRosters = rosters;
         }

@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<form class="form-horizontal" data-bind="attr: {action: '/Athlete/Create'}" method="POST">
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label class="control-label" for="firstNameInput">First Name</label>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <input class="form-control focused" id="firstNameInput" type="text">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label class="control-label" for="lastNameInput">Last Name</label>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <input class="form-control focused" id="lastNameInput" type="text">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <label class="control-label" for="rosterSelect">Roster</label>
+        </div>
+        <div class="col-sm-2">
+            <select id="rosterSelect" class="form-control" data-bind="options: rosters,
+                                                                      optionsText: 'name'"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            var viewModel = ko.mapping.fromJS(@Html.Raw(Model));
+            ko.applyBindings(viewModel);
+        });
+    </script>
+}

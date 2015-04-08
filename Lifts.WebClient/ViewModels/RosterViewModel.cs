@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Lifts.WebClient.ViewModels
 {
-    public class RosterlViewModel
+    public class RosterViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -13,7 +13,7 @@ namespace Lifts.WebClient.ViewModels
         public string RosterViewLink { get; private set; }
         public string RosterSkillsLink { get; private set; }
 
-        public RosterlViewModel(int id, string name, int enrollment)
+        public RosterViewModel(int id, string name, int enrollment)
         {
             Id = id;
             Name = name;
