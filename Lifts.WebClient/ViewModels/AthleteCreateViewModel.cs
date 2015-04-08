@@ -14,6 +14,8 @@ namespace Lifts.WebClient.ViewModels
         [Required]
         public string LastName { get; set; }
 
+        
+
         public IEnumerable<RosterViewModel> Rosters { get; private set; }
 
         public AthleteCreateViewModel()
@@ -24,6 +26,13 @@ namespace Lifts.WebClient.ViewModels
         public AthleteCreateViewModel(IEnumerable<RosterViewModel> rosters)
         {
             Rosters = rosters;
+
         }
+
+        public int Weight { get; set; }
+
+        public int Height { get; set; }
+
+        public DateTime DateOfBirth { get; set; }
     }
 }

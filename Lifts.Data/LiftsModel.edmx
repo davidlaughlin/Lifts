@@ -12,6 +12,9 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateOfBirth" Type="date" Nullable="false" />
+          <Property Name="HeightInInches" Type="int" Nullable="false" />
+          <Property Name="WeightInPounds" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="AthleteFitnessTest">
           <Key>
@@ -30,6 +33,7 @@
           <Property Name="SkillId" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="250" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Roster">
           <Key>
@@ -42,7 +46,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RosterId" Type="int" Nullable="false" />
           <Property Name="AthleteId" Type="int" Nullable="false" />
         </EntityType>
@@ -156,6 +160,7 @@
           <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Skill" Relationship="Self.FK_FitnessTest_Skill" FromRole="FitnessTest" ToRole="Skill" />
           <NavigationProperty Name="AthleteFitnessTests" Relationship="LiftsDbModel.FK_AthleteFitnessTest_FitnessTest" FromRole="FitnessTest" ToRole="AthleteFitnessTest" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Skill">
           <Key>
@@ -215,6 +220,9 @@
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="AthleteFitnessTests" Relationship="LiftsDbModel.FK_AthleteFitnessTest_Athlete" FromRole="Athlete" ToRole="AthleteFitnessTest" />
           <NavigationProperty Name="RosterAthletes" Relationship="LiftsDbModel.FK_RosterAthlete_Athlete" FromRole="Athlete" ToRole="RosterAthlete" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" Nullable="false" />
+          <Property Name="HeightInInches" Type="Int32" Nullable="false" />
+          <Property Name="WeightInPounds" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="AthleteFitnessTest">
           <Key>
@@ -302,6 +310,7 @@
           <EntitySetMapping Name="FitnessTests">
             <EntityTypeMapping TypeName="LiftsDbModel.FitnessTest">
               <MappingFragment StoreEntitySet="FitnessTest">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="SkillId" ColumnName="SkillId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -321,6 +330,9 @@
           <EntitySetMapping Name="Athletes">
             <EntityTypeMapping TypeName="LiftsDbModel.Athlete">
               <MappingFragment StoreEntitySet="Athlete">
+                <ScalarProperty Name="WeightInPounds" ColumnName="WeightInPounds" />
+                <ScalarProperty Name="HeightInInches" ColumnName="HeightInInches" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

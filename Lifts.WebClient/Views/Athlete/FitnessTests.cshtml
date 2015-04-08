@@ -19,10 +19,24 @@
     <div class="col-sm-12">
         <ul class="skill-bar" data-bind="foreach: allFitnessTests">
             <li>
-                <label>
-                    <input type="checkbox" data-bind="checkedValue: completed, checked: completed, click: function(data, event) {return $parent.onCheckBoxClick($index, data, event)}">
-                    <span data-bind="text: name"></span>
-                </label>
+                <div class="row">
+                    <div class="col-md-2">
+                        <input type="checkbox" data-bind="checkedValue: completed, checked: completed, click: function(data, event) {return $parent.onCheckBoxClick($index, data, event)}">
+                        <label>
+                            <span data-bind="text: name"></span>
+                        </label>
+                    </div>
+                    <div class="col-md-1">
+                        <button class="btn btn-success btn-xs btn-show">
+                            <i class="fa fa-chevron-down"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <span data-bind="text: description"></span>
+                    </div>
+                </div>
             </li>
         </ul>
     </div>
@@ -30,65 +44,10 @@
 
 @section Scripts
 {
-    <script type="text/javascript">
-
-        var queries = {};
-        $.each(document.location.search.substr(1).split('&'), function (c, q) {
-            var i = q.split('=');
-            queries[i[0].toString()] = i[1].toString();
-        });
-
-        $(function() {
-            var viewModel = ko.mapping.fromJS(@Html.Raw(Model));
-
-            viewModel.skillProgress = ko.computed(function () {
-                var self = this;
-                if (self.allFitnessTests == null) {
-                    return 0;
-                }
-
-                var completedCount = 0;
-                for (var i = 0; i < self.allFitnessTests().length; i++) {
-                    if (self.allFitnessTests()[i].completed()) {
-                        completedCount++;
-                    }
-                }
-
-                var percentCompleted = (completedCount / self.allFitnessTests().length) * 100;
-                return Math.floor(percentCompleted);
-            }, viewModel);
-
-            viewModel.saveFitnessTest = function (index, data, event) {
-                var self = this;
-                var idx = index();
-
-                var fitnessTest = {
-                    id: self.allFitnessTests()[idx].id(),
-                    name: self.allFitnessTests()[idx].name(),
-                    completed: self.allFitnessTests()[idx].completed()
-                };
-
-                $.ajax({
-                    url: "/Athlete/SaveFitnessTest?athleteId=" + queries["athleteId"],
-                    type: "POST",
-                    data: JSON.stringify(fitnessTest),
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                    },
-                    error: function (status) {
-                        alert('error: ' + status);
-                    }
-                });
-
-                return true;
-            }
-
-            viewModel.onCheckBoxClick = function (index, data, event) {
-                var self = this;
-                return self.saveFitnessTest(index, data, event);
-            }
-
-            ko.applyBindings(viewModel);
-        });
+    
+    <script src="~/Scripts/lifts.js"></script>
+    <script src="~/KnockoutViewModels/FitnessTestListViewModel.js"></script>
+    <script>
+        load(@Html.Raw(Model));
     </script>
 }

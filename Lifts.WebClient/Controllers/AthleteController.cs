@@ -66,11 +66,11 @@ namespace Lifts.WebClient.Controllers
                 if (athlete.AthleteFitnessTests.Any(each => each.FitnessTestId == fitnessTest.Id))
                 {
                     bool completed = athlete.AthleteFitnessTests.First(each => each.FitnessTestId == fitnessTest.Id).Completed;
-                    fitnessTests.Add(new FitnessTestProgressViewModel(fitnessTest.Id, skill.Name, fitnessTest.Name, completed));
+                    fitnessTests.Add(new FitnessTestProgressViewModel(fitnessTest.Id, skill.Name, fitnessTest.Name, fitnessTest.Description, completed));
                 }
                 else
                 {
-                    fitnessTests.Add(new FitnessTestProgressViewModel(fitnessTest.Id, skill.Name, fitnessTest.Name, false));
+                    fitnessTests.Add(new FitnessTestProgressViewModel(fitnessTest.Id, skill.Name, fitnessTest.Name, fitnessTest.Description, false));
                 }
             }
 

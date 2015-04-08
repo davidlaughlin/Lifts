@@ -25,6 +25,35 @@
             <input class="form-control focused" id="lastNameInput" type="text">
         </div>
     </div>
+    @*<div class="row">
+            <div class="col-sm-2">
+                <label class="control-label" for="dateOfBirthInput">Date of Birth</label>
+            </div>
+            <div class="col-sm-2 input-group date">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <input class="form-control focused date-picker" id="dateOfBirthInput" type="text">
+            </div>
+        </div>*@
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label class="control-label" for="heightInput">Height</label>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <input class="form-control focused" id="heightInput" type="text">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label class="control-label" for="weightInput">Weight</label>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <input class="form-control focused" id="weightInput" type="text">
+        </div>
+    </div>
     <div class="row">
         <div class="col-sm-2">
             <label class="control-label" for="rosterSelect">Roster</label>
@@ -47,6 +76,8 @@
         $(function () {
             var viewModel = ko.mapping.fromJS(@Html.Raw(Model));
             ko.applyBindings(viewModel);
+
+            $('.date-picker').datepicker();
         });
     </script>
 }

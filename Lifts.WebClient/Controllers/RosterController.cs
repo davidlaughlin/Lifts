@@ -53,9 +53,9 @@ namespace Lifts.WebClient.Controllers
                 return new HttpNotFoundResult();
             }
 
-            foreach (RosterAthlete athlete in roster.RosterAthletes)
+            foreach (Athlete athlete in roster.Athletes)
             {
-                athleteViewModels.Add(new AthleteViewModel(athlete.AthleteId, athlete.Athlete.FirstName, athlete.Athlete.LastName));
+                athleteViewModels.Add(new AthleteViewModel(athlete.Id, athlete.FirstName, athlete.LastName, athlete.DateOfBirth, athlete.HeightInInches, athlete.WeightInPounds));
             }
 
             RosterDetailViewModel viewModel = new RosterDetailViewModel(athleteViewModels);

@@ -24,6 +24,9 @@ namespace Lifts.Data
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public System.DateTime DateOfBirth { get; set; }
+        public int HeightInInches { get; set; }
+        public int WeightInPounds { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AthleteFitnessTest> AthleteFitnessTests { get; set; }
